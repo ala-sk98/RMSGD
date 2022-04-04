@@ -77,7 +77,7 @@ def args(sub_parser: _SubParsersAction):
         help="Set configuration file path: Default = 'config.yaml'")
     sub_parser.add_argument(
         '--data', dest='data',
-        default='.rmsgd-data', type=str,
+        default=r'C:\Users\alasa\OneDrive\Documents\UNB\TME\Dataset\Chaoyang\Chaoyang', type=str,
         help="Set data directory path: Default = '.rmsgd-data'")
     sub_parser.add_argument(
         '--output', dest='output',
