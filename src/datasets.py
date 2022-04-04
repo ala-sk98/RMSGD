@@ -69,6 +69,73 @@ class MHIST(ImageFolder):
         return os.path.join(self.root, self.split)
 
 
+class Chaoyang(ImageFolder):
+    url = 'https://drive.google.com/drive/folders/1ZyvfRVCQVnUD91R3Oo2m0EGi38g2OEK_?usp=sharing'
+    filename = 'Chaoyang.zip'
+    """`TinyImageNet
+    Args:
+        root (string): Root directory of the ImageNet Dataset.
+        split (string, optional): The dataset split, supports ``train``, or
+            ``val``.
+        transform (callable, optional): A function/transform that  takes in an
+            PIL image
+            and returns a transformed version. E.g, ``transforms.RandomCrop``
+        target_transform (callable, optional): A function/transform that takes
+            in the
+            target and transforms it.
+        loader (callable, optional): A function to load an image given its
+            path.
+
+     Attributes:
+        classes (list): List of the class name tuples.
+        class_to_idx (dict): Dict with items (class_name, class_index).
+        wnids (list): List of the WordNet IDs.
+        wnid_to_idx (dict): Dict with items (wordnet_id, class_index).
+        imgs (list): List of (image path, class_index) tuples
+        targets (list): The class_index value for each image in the dataset
+    """
+
+    def __init__(self, root, split='train', download=False, **kwargs):
+        root = self.root = os.path.expanduser(root)
+        self.split = verify_str_arg(split, "split", ("train", "val"))
+        self.root = root
+        if download:
+            # self.download()
+            raise ValueError(
+                "Downloading of TinyImageNet is not supported. " +
+                "You must manually download the 'tiny-imagenet-200.zip' from" +
+                f" {self.url} and extract the 'tiny-imagenet-200' folder " +
+                "into the folder specified by 'root'. That is, once the" +
+                "'tiny-imagenet-200' folder is extracted, specify the data " +
+                "directory for this program as the path for to that folder")
+        self.classes = ('normal', 'serrated', 'adenocarcinoma', 'adenoma')
+        self.class_to_idx = {cls: idx
+                             for idx, clss in enumerate(self.classes)
+                             for cls in clss}
+        super(Chaoyang, self).__init__(self.split_folder, **kwargs)
+
+    def _check_integrity(self):
+        dirs = [d.name for d in Path(self.root).iterdir()]
+        if 'train' not in dirs or 'test' not in dirs or 'val' not in dirs:
+            return False
+        return True
+
+    def download(self):
+        if self._check_integrity():
+            print("Files already downloaded and verified")
+        download_and_extract_archive(
+            self.url, self.root,
+            filename=self.filename, md5=None)
+
+    @ property
+    def split_folder(self):
+        return os.path.join(self.root, self.split)
+
+    def extra_repr(self):
+        return "Split: {split}".format(**self.__dict__)
+
+
+
 class TinyImageNet(ImageFolder):
     url = 'http://cs231n.stanford.edu/tiny-imagenet-200.zip'
     filename = 'tiny-imagenet-200.zip'
