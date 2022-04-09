@@ -95,7 +95,7 @@ def EVBMF(Y, sigma2=None, H=None):
         s = s*np.sqrt(scale)
         residual = residual*scale
         lower_bound = lower_bound*scale
-        upper_bound = upper_bound*scale
+        upper_bound = upper_bound*scale + 1.0e-4
 
         sigma2_opt = minimize_scalar(
             EVBsigma2, args=(L, M, s.cpu().numpy(), residual, xubar),
