@@ -16,13 +16,13 @@ class RMSGD(Optimizer):
     def __init__(self,
                  params,
                  lr: float = required,
-                 beta: float = 0.8,
-                 step_size: int = None,
+                 beta: float = 0.98,
+                 step_size: int = 1,
                  linear: bool = False,
-                 gamma: float = 1,
-                 momentum: float = 0,
+                 gamma: float = 0.98,
+                 momentum: float = 0.9,
                  dampening: float = 0,
-                 weight_decay: float = 0,
+                 weight_decay: float = 1e-4,
                  nesterov: bool = False,):
         if lr is not required and lr < 0.0:
             raise ValueError("Invalid learning rate: {}".format(lr))
